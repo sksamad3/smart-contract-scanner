@@ -1,7 +1,3 @@
-Absolutely! ✅ Here’s a **highly detailed, professional README** with icons and **minute step-by-step instructions**, so even a non-technical person can follow it without confusion.
-
----
-
 # 🛡️ Smart Contract Scanner
 
 A **full-stack smart contract scanner** that allows users to upload Solidity (`.sol`) files and scan for vulnerabilities.
