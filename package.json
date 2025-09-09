@@ -22,6 +22,7 @@
     "ethers": "^6.15.0",
     "express": "^5.1.0",
     "multer": "^2.0.2",
+    "open": "^8.4.0",
     "solc": "^0.8.30",
     "solidity-parser-antlr": "^0.4.11"
   }
