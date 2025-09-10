@@ -2,39 +2,65 @@
 <html>
 <head>
   <title>Smart Contract Scanner</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css"> <!-- link to your CSS -->
 </head>
-<body class="bg-light p-5">
-  <div class="container">
-    <h2 class="mb-4">Smart Contract Scanner</h2>
-    
-    <form id="uploadForm">
-      <div class="mb-3">
-        <label for="contract" class="form-label">Upload Solidity Contract (.sol)</label>
-        <input type="file" class="form-control" id="contract" name="contract" required>
-      </div>
-      <button type="submit" class="btn btn-primary">Scan</button>
-    </form>
+<body>
 
-    <div id="result" class="mt-4"></div>
-  </div>
+    <!-- Floating icons container
+<div id="floating-icons">
+  <img src="/assets/ethereum.png" class="icon" alt="Ethereum">
+  <img src="/assets/solana.png" class="icon" alt="Solana">
+  <img src="/assets/smartcontracts.png" class="icon" alt="Blockchain">
+  <img src="/assets/chainlink.png" class="icon" alt="Chainlink">
+</div>  -->
+  <h1 id="main-heading">Smart Contract Scanner</h1>
+
+  <!-- Custom file input wrapper -->
+  <label id="file-label">
+    <span id="file-text">Choose Solidity File...</span>
+    <input type="file" id="main-input" name="contract" accept=".sol" required>
+  </label>
+
+  <button id="scan-button">Scan</button>
+
+  <div id="result"></div>
+
+
 
   <script>
-    const form = document.getElementById("uploadForm");
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const fileInput = document.getElementById("contract");
+    const fileInput = document.getElementById("main-input");
+    const fileText = document.getElementById("file-text");
+    const scanButton = document.getElementById("scan-button");
+
+    // Update file label text when file selected
+    fileInput.addEventListener("change", () => {
+      if(fileInput.files.length > 0){
+        fileText.textContent = fileInput.files[0].name;
+      } else {
+        fileText.textContent = "Choose Solidity File...";
+      }
+    });
+
+    // Scan button triggers upload
+    scanButton.addEventListener("click", async () => {
+      if(fileInput.files.length === 0) return;
+
       const formData = new FormData();
       formData.append("contract", fileInput.files[0]);
 
-      const res = await fetch("http://localhost:5000/scan", {
-        method: "POST",
-        body: formData
-      });
-
-      const data = await res.json();
-      document.getElementById("result").innerHTML =
-        "<pre>" + JSON.stringify(data, null, 2) + "</pre>";
+      try {
+        const res = await fetch("http://localhost:5000/scan", {
+          method: "POST",
+          body: formData
+        });
+        const data = await res.json();
+        document.getElementById("result").innerHTML =
+          "<pre>" + JSON.stringify(data, null, 2) + "</pre>";
+      } catch (err) {
+        document.getElementById("result").innerHTML =
+          "<p style='color:red;'>Error connecting to server.</p>";
+        console.error(err);
+      }
     });
   </script>
 </body>
